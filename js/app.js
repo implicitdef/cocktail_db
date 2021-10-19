@@ -11,6 +11,7 @@ function Alternatives({ alternatives }) {
   return null;
 }
 
+
 function CocktailCard({
   cocktail,
   ingredientsAvailability,
