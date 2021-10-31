@@ -20,6 +20,8 @@ function cleanHtmlStr(s: string): string {
   return s.replace(/\s+/, " ");
 }
 
+const hardcodedCocktailsUrls = [`https://${domain}/drinks/maple-leaf/`];
+
 export async function parseCocktail(url: string): Promise<Cocktail> {
   const html = await httpCallCached(url);
   console.log(`Parsing cocktail ${url}`);
@@ -84,8 +86,8 @@ export async function buildLinksOfAllCocktails(): Promise<string[]> {
     `https://${domain}/drink-category/tropical-cocktails/`,
   ];
 
-  return uniq(
-    (
+  return uniq([
+    ...(
       await Promise.all(
         categories.map(async (categoryUrl) => {
           const html = await httpCallCached(categoryUrl);
@@ -101,8 +103,11 @@ export async function buildLinksOfAllCocktails(): Promise<string[]> {
           throw new Error(`cannot parse doc Dom from ${categoryUrl}`);
         })
       )
-    ).flat()
-  );
+    ).flat(),
+    // on ajoute des cocktails hardcodés, qui ne sont pas accessibles en cherchant par catégorie
+    // à terme il faudra essayer de crawler le site différemment pour trouver vraiment tous les cocktails
+    ...hardcodedCocktailsUrls,
+  ]);
 }
 
 export async function httpCallCached(url: string): Promise<string> {
