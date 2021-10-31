@@ -1,26 +1,10 @@
 import React from "react";
-import cocktails from "../db.json";
-
-console.log("cocktails", cocktails);
+import db from "../db.json";
+import { Cocktail } from "../utils/types";
+import { BigAppWrapper } from "./variousComponents";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  return <BigAppWrapper cocktails={db as Cocktail[]} />;
 }
 
 export default App;
