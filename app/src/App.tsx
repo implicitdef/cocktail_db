@@ -1,5 +1,8 @@
 import React from "react";
 import "./App.css";
+import cocktails from "./db.json";
+
+console.log("foo", cocktails);
 
 function App() {
   return (
