@@ -4,7 +4,12 @@ import { Cocktail } from "../utils/types";
 import { BigAppWrapper } from "./variousComponents";
 
 function App() {
-  return <BigAppWrapper cocktails={db as Cocktail[]} />;
+  return (
+    <div style={{ padding: "30px" }}>
+      <h1>Cocktails database</h1>
+      <BigAppWrapper cocktails={db as Cocktail[]} />
+    </div>
+  );
 }
 
 export default App;

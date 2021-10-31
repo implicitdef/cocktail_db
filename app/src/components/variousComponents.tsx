@@ -28,13 +28,20 @@ function CocktailCard({
   setIngredientAvailability: AvailabilitySetter;
 }) {
   return (
-    <div>
-      <h2>
-        <img
-          style={{ height: "4rem" }}
-          src={`https://${domain}/${cocktail.imgSrc}`}
-          alt=""
-        />
+    <div
+      style={{
+        maxWidth: "500px",
+        background: "#FFE",
+        padding: "5px",
+        margin: "5px",
+      }}
+    >
+      <img
+        style={{ height: "4rem", float: "right" }}
+        src={`https://${domain}/${cocktail.imgSrc}`}
+        alt=""
+      />
+      <h2 style={{ margin: 0 }}>
         {cocktail.name}
         <a
           style={{ fontSize: "0.9rem", marginLeft: "5px" }}

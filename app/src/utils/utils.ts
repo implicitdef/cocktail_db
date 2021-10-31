@@ -14,4 +14,9 @@ export function translateAvailabilityAsColor(availability: Availability) {
   }
 }
 
-export const domain = "cocktailpa" + "rtyapp.com";
+function reverse(s: string) {
+  return s.split("").reverse().join("");
+}
+
+// eslint-disable-next-line no-useless-concat
+export const domain = reverse("apliatkcoc") + "rtyapp.com";
