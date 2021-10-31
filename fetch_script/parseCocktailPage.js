@@ -1,4 +1,6 @@
 import { httpCallCached } from "./http.js";
+import cheerio from "cheerio";
+import { cleanHtmlStr } from "./utils.js";
 
 /*
 
@@ -21,34 +23,36 @@ interface Cocktail {
 export async function parseCocktailPage(url) {
   const html = await httpCallCached(url);
   console.log(`Parsing cocktail ${url}`);
-  const doc = new DOMParser().parseFromString(html, "text/html");
-  const name = cleanHtmlStr(doc.querySelector(".recipe-card h1").textContent);
-  const imgSrc = doc
-    .querySelector(".recipe-card .recipe-thumb img")
-    .getAttribute("src");
-  const desc = cleanHtmlStr(
-    doc.querySelector(".recipe-card .recipe-description").textContent
+  const $ = cheerio.load(html);
+  const name = cleanHtmlStr($(".recipe-card h1").text());
+  const imgSrc = $(".recipe-card .recipe-thumb img").attr("src");
+  const desc = cleanHtmlStr($(".recipe-card .recipe-description").text());
+  const ingredients = $(".recipe-card .ingredient-list li")
+    .map(function () {
+      const li = $(this);
+      const amount = cleanHtmlStr($(".amount", li).text().trim());
+      const ingredientName = cleanHtmlStr($(".ingredient", li).text().trim());
+      const alternateIngredients = $(".text-muted a", li);
+      let alternateIngredientsNames = [];
+      if (alternateIngredients && alternateIngredients.length) {
+        alternateIngredientsNames = [...alternateIngredients].map((_) =>
+          cleanHtmlStr(_.text().trim())
+        );
+      }
+      return { amount, ingredientName, alternateIngredientsNames };
+    })
+    .get();
+  const instructions = cleanHtmlStr(
+    $(".recipe-card .recipe-instructions").text()
   );
-  const ingredientLis = doc.querySelectorAll(
-    ".recipe-card .ingredient-list li"
-  );
-  const ingredients = [...ingredientLis].map((li) => {
-    const amount = cleanHtmlStr(li.querySelector(".amount").textContent.trim());
-    const ingredientName = cleanHtmlStr(
-      li.querySelector(".ingredient").textContent.trim()
-    );
-    const alternateIngredients = li.querySelectorAll(".text-muted a");
-    let alternateIngredientsNames = [];
-    if (alternateIngredients && alternateIngredients.length) {
-      alternateIngredientsNames = [...alternateIngredients].map((_) =>
-        cleanHtmlStr(_.textContent.trim())
-      );
-    }
-    return { amount, ingredientName, alternateIngredientsNames };
+  console.log({
+    url: url.replace(/^https:\/\/[^\/]*\//, "/"),
+    imgSrc,
+    name,
+    desc,
+    ingredients,
+    instructions,
   });
-  const instructions = doc.querySelector(
-    ".recipe-card .recipe-instructions"
-  ).textContent;
   return {
     url: url.replace(/^https:\/\/[^\/]*\//, "/"),
     imgSrc,
