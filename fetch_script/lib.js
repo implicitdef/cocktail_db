@@ -1,3 +1,4 @@
+import { httpCallCached } from "./http.js";
 import { parseCocktailPage } from "./parseCocktailPage.js";
 import { domain, uniq } from "./utils.js";
 
@@ -37,7 +38,7 @@ export async function buildLinksOfAllCocktails() {
     ...(
       await Promise.all(
         categories.map(async (categoryUrl) => {
-          const html = await httpCall(categoryUrl);
+          const html = await httpCallCached(categoryUrl);
           const doc = new DOMParser().parseFromString(html, "text/html");
           if (doc) {
             console.log(`Parsing cocktail links from category ${categoryUrl}`);

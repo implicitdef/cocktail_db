@@ -1,6 +1,5 @@
 fetch:
-	node fetch_script/index.js
-
+	yarn --cwd fetch_script fetch
 
 watch:
 	yarn --cwd app && yarn --cwd app start

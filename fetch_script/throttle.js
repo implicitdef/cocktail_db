@@ -5,7 +5,7 @@ class TaskMaster {
   resolvesQueue = [];
 
   waitForPermissionToRunTask() {
-    return new Promise<void>((resolve) => {
+    return new Promise((resolve) => {
       if (this.counter >= this.max) {
         this.resolvesQueue.push(() => {
           this.counter++;
