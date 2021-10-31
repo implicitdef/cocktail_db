@@ -23,16 +23,16 @@ const hardcodedCocktailsUrls = [`https://${domain}/drinks/maple-leaf/`];
 export async function buildLinksOfAllCocktails() {
   const categories = [
     `https://${domain}/drink-category/creamy-cocktails/`,
-    // `https://${domain}/drink-category/highball-cocktails/`,
-    // `https://${domain}/drink-category/hot-cocktails/`,
-    // `https://${domain}/drink-category/fruit-herb-cocktails/`,
-    // `https://${domain}/drink-category/low-proof-cocktails/`,
-    // `https://${domain}/drink-category/savory-cocktails/`,
-    // `https://${domain}/drink-category/simple-cocktails/`,
-    // `https://${domain}/drink-category/sour-cocktails/`,
-    // `https://${domain}/drink-category/sparkling-cocktails/`,
-    // `https://${domain}/drink-category/spirit-forward-cocktails/`,
-    // `https://${domain}/drink-category/tropical-cocktails/`,
+    `https://${domain}/drink-category/highball-cocktails/`,
+    `https://${domain}/drink-category/hot-cocktails/`,
+    `https://${domain}/drink-category/fruit-herb-cocktails/`,
+    `https://${domain}/drink-category/low-proof-cocktails/`,
+    `https://${domain}/drink-category/savory-cocktails/`,
+    `https://${domain}/drink-category/simple-cocktails/`,
+    `https://${domain}/drink-category/sour-cocktails/`,
+    `https://${domain}/drink-category/sparkling-cocktails/`,
+    `https://${domain}/drink-category/spirit-forward-cocktails/`,
+    `https://${domain}/drink-category/tropical-cocktails/`,
   ];
 
   return uniq([
@@ -61,7 +61,7 @@ export async function buildLinksOfAllCocktails() {
 export async function fetchAndParseAllCocktails() {
   const links = await buildLinksOfAllCocktails();
   return await Promise.all(
-    links.slice(0, 1).map(async (link) => {
+    links.map(async (link) => {
       return await parseCocktailPage(link);
     })
   );

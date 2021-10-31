@@ -35,9 +35,11 @@ export async function parseCocktailPage(url) {
       const alternateIngredients = $(".text-muted a", li);
       let alternateIngredientsNames = [];
       if (alternateIngredients && alternateIngredients.length) {
-        alternateIngredientsNames = [...alternateIngredients].map((_) =>
-          cleanHtmlStr(_.text().trim())
-        );
+        alternateIngredientsNames = alternateIngredients
+          .map(function () {
+            return cleanHtmlStr($(this).text().trim());
+          })
+          .get();
       }
       return { amount, ingredientName, alternateIngredientsNames };
     })
@@ -45,14 +47,6 @@ export async function parseCocktailPage(url) {
   const instructions = cleanHtmlStr(
     $(".recipe-card .recipe-instructions").text()
   );
-  console.log({
-    url: url.replace(/^https:\/\/[^\/]*\//, "/"),
-    imgSrc,
-    name,
-    desc,
-    ingredients,
-    instructions,
-  });
   return {
     url: url.replace(/^https:\/\/[^\/]*\//, "/"),
     imgSrc,
