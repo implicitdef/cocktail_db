@@ -1,6 +1,6 @@
-import { fetchAndParseAllCocktails, Cocktail } from "./lib.ts";
+import { fetchAndParseAllCocktails } from "./lib.js";
 
-export function writeCocktailsToJsFile(cocktails: Cocktail[]): void {
+export function writeCocktailsToJsFile(cocktails) {
   const file = "./app/src/db.json";
   console.log(`Writing to ${file}`);
   Deno.writeTextFileSync(file, JSON.stringify(cocktails), {});

@@ -1,5 +1,3 @@
-import { connect } from "https://deno.land/x/redis/mod.ts";
-
 const prefix = "cocktailsdb";
 
 console.log("Connecting to redis");
@@ -9,10 +7,11 @@ const redis = await connect({
 });
 console.log("Connected.");
 
-export function redisSet(key: string, value: string): Promise<unknown> {
+export function redisSet(key, value) {
   return redis.set(`${prefix}:${key}`, value);
 }
-export async function redisGet(key: string): Promise<string | null> {
+
+export async function redisGet(key) {
   const res = await redis.get(`${prefix}:${key}`);
   if (!res) return null;
   return res;

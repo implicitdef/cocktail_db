@@ -2,7 +2,7 @@ class TaskMaster {
   max = 30;
   counter = 0;
 
-  resolvesQueue: Array<() => void> = [];
+  resolvesQueue = [];
 
   waitForPermissionToRunTask() {
     return new Promise<void>((resolve) => {
@@ -40,7 +40,7 @@ const taskMaster = new TaskMaster();
 //
 // It's like a global "chokepoint" where only X
 // can go at a time
-export async function throttle<A>(cb: () => Promise<A>): Promise<A> {
+export async function throttle(cb) {
   await taskMaster.waitForPermissionToRunTask();
   const result = await cb();
   taskMaster.signalEndOfTask();
