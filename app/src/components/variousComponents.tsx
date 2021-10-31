@@ -135,13 +135,9 @@ function IngredientWithAvailability({
 }
 
 function SettingsOverlay({
-  ingredientsAvailability,
-  setIngredientAvailability,
   ingredientsFilterMode,
   setIngredientsFilterMode,
 }: {
-  ingredientsAvailability: AvailabilitiesMap;
-  setIngredientAvailability: AvailabilitySetter;
   ingredientsFilterMode: FilterMode;
   setIngredientsFilterMode: FilterModeSetter;
 }) {
@@ -167,21 +163,6 @@ function SettingsOverlay({
         <option value="only_yes">Only with Yes</option>
         <option value="yes_or_maybe">Only with Yes or Maybe</option>
       </select>
-
-      <h3>Ingredients available or not</h3>
-      {Object.entries(ingredientsAvailability).map(
-        ([ingredientName, availability]) => {
-          return (
-            <p key={ingredientName}>
-              <IngredientWithAvailability
-                ingredientName={ingredientName}
-                availability={availability}
-                setIngredientAvailability={setIngredientAvailability}
-              />
-            </p>
-          );
-        }
-      )}
     </div>
   );
 }
@@ -260,16 +241,20 @@ export function BigAppWrapper({ cocktails }: { cocktails: Cocktail[] }) {
     [ingredientsAvailability]
   );
 
-  const props = {
-    ingredientsAvailability,
-    setIngredientAvailability,
-    ingredientsFilterMode,
-    setIngredientsFilterMode,
-  };
   return (
     <div>
-      <SettingsOverlay {...props} />
-      <CocktailsTable cocktails={cocktails} {...props} />
+      <SettingsOverlay
+        {...{ ingredientsFilterMode, setIngredientsFilterMode }}
+      />
+      <CocktailsTable
+        cocktails={cocktails}
+        {...{
+          ingredientsAvailability,
+          setIngredientAvailability,
+          ingredientsFilterMode,
+          setIngredientsFilterMode,
+        }}
+      />
     </div>
   );
 }
