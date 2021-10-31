@@ -1,5 +1,9 @@
 # usage
 
+# notes :
+
+`docs/` c'est en fait le dossier de build, c'est là d'où Github Pages sert le site statique
+
 ## pour fetcher les donner et les écrire dans db.json
 
     make fetch
