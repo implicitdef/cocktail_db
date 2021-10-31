@@ -1,8 +1,7 @@
 import React from "react";
-import "./App.css";
-import cocktails from "./db.json";
+import cocktails from "../db.json";
 
-console.log("foo", cocktails);
+console.log("cocktails", cocktails);
 
 function App() {
   return (
