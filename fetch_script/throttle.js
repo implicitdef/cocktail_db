@@ -1,5 +1,5 @@
 class TaskMaster {
-  max = 30;
+  max = 10;
   counter = 0;
 
   resolvesQueue = [];
