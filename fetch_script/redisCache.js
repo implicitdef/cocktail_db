@@ -24,3 +24,7 @@ export async function redisGet(key) {
     return null;
   return res;
 }
+
+export function redisQuit() {
+  client.quit();
+}
