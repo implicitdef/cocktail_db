@@ -1,5 +1,3 @@
-vérifier que tout va bien et redéploy
-
 Fixer les liens vers les ingrédients
 Rebosser pour que les cocktails disparaissent pas de la recherche quand on change leur ingrédients
 
