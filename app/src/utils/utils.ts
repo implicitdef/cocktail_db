@@ -1,4 +1,4 @@
-import { Availability } from "./types";
+import { Availability, Ingredient } from "./types";
 
 export function translateAvailabilityAsColor(availability: Availability) {
   switch (availability) {
@@ -20,3 +20,17 @@ function reverse(s: string) {
 
 // eslint-disable-next-line no-useless-concat
 export const domain = reverse("apliatkcoc") + "rtyapp.com";
+
+export function flattenIngredientName(
+  ingredientNameWithLinks: Ingredient["ingredientNameWithLinks"]
+) {
+  return ingredientNameWithLinks
+    .map((part) => {
+      if (typeof part === "string") {
+        return part;
+      } else {
+        return part.text;
+      }
+    })
+    .join(" ");
+}

@@ -1,7 +1,7 @@
 import React from "react";
 import db from "../db.json";
 import { Cocktail } from "../utils/types";
-import { BigAppWrapper } from "./variousComponents";
+import { BigAppWrapper } from "./BigAppWrapper";
 
 function App() {
   return (

@@ -1,13 +1,14 @@
+export interface Ingredient {
+  amount: string;
+  ingredientNameWithLinks: (string | { href: string; text: string })[];
+  alternateIngredientsNames: string[];
+}
 export interface Cocktail {
   url: string;
   imgSrc: string;
   name: string;
   desc: string;
-  ingredients: {
-    amount: string;
-    ingredientName: string;
-    alternateIngredientsNames: string[];
-  }[];
+  ingredients: Ingredient[];
   instructions: string;
 }
 
