@@ -54,6 +54,7 @@ export function CocktailCard({
                 {amount}{" "}
                 <IngredientWithAvailability
                   ingredientName={ingredientName}
+                  ingredientNameWithLinks={ingredientNameWithLinks}
                   availability={ingredientsAvailability[ingredientName]}
                   setIngredientAvailability={setIngredientAvailability}
                 />

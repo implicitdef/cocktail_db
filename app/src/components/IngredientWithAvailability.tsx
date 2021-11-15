@@ -1,13 +1,15 @@
 import React, { useCallback } from "react";
-import { Availability, AvailabilitySetter } from "../utils/types";
+import { Availability, AvailabilitySetter, Ingredient } from "../utils/types";
 import { domain } from "../utils/utils";
 
 export function IngredientWithAvailability({
   ingredientName,
+  ingredientNameWithLinks,
   availability,
   setIngredientAvailability,
 }: {
   ingredientName: string;
+  ingredientNameWithLinks: Ingredient["ingredientNameWithLinks"];
   availability: Availability;
   setIngredientAvailability: AvailabilitySetter;
 }) {
@@ -31,20 +33,35 @@ export function IngredientWithAvailability({
     setIngredientAvailability(ingredientName, newAvailability);
   }, [ingredientName, availability, setIngredientAvailability]);
 
-  function buildIngredientUrl() {
-    return `https://${domain}/ingredients/${ingredientName.replace(" ", "-")}`;
+  function buildIngredientUrl(href: string) {
+    return `https://${domain}/ingredients/${href}`;
   }
 
   return (
-    <span>
-      <a
-        href={buildIngredientUrl()}
-        style={{
-          textDecoration: availability === "no" ? "line-through" : "initial",
-        }}
-      >
-        {ingredientName}
-      </a>
+    <span
+      style={{
+        textDecoration: availability === "no" ? "line-through" : "initial",
+      }}
+    >
+      {ingredientNameWithLinks.map((part, i) => {
+        const style = { margin: "0 2px" };
+        if (typeof part === "string") {
+          return (
+            <span style={style} key={part + i}>
+              {part}
+            </span>
+          );
+        }
+        return (
+          <a
+            style={style}
+            key={part.text + i}
+            href={buildIngredientUrl(part.href)}
+          >
+            {part.text}
+          </a>
+        );
+      })}
       <span
         style={{
           padding: "0 5px",
