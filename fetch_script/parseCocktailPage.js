@@ -13,7 +13,7 @@ interface Cocktail {
   desc: string;
   ingredients: {
     amount: string;
-    ingredientName: string;
+    ingredientNameWithLinks: ( string | { href: string, text: string } )[];
     alternateIngredientsNames: string[];
   }[];
   instructions: string;
@@ -31,7 +31,31 @@ export async function parseCocktailPage(url) {
     .map(function () {
       const li = $(this);
       const amount = cleanHtmlStr($(".amount", li).text().trim());
-      const ingredientName = cleanHtmlStr($(".ingredient", li).text().trim());
+      const ingredientNameWithLinks = $(".ingredient", li)
+        .contents()
+        .map(function () {
+          if (this.type === "text") {
+            const text = $(this).text().trim();
+            if (text.length) {
+              return text;
+            } else {
+              return null;
+            }
+          } else if (this.type === "tag") {
+            const tagName = $(this).prop("tagName");
+            if (tagName === "A") {
+              const href = $(this).attr("href");
+              const text = $(this).text().trim();
+              return { href, text };
+            } else {
+              throw new Error(
+                `Found a tag that was not <a>, it was ${tagName}, for ${url}`
+              );
+            }
+          }
+        })
+        .toArray()
+        .filter((_) => _ !== null);
       const alternateIngredients = $(".text-muted a", li);
       let alternateIngredientsNames = [];
       if (alternateIngredients && alternateIngredients.length) {
@@ -41,7 +65,7 @@ export async function parseCocktailPage(url) {
           })
           .get();
       }
-      return { amount, ingredientName, alternateIngredientsNames };
+      return { amount, ingredientNameWithLinks, alternateIngredientsNames };
     })
     .get();
   const instructions = cleanHtmlStr(

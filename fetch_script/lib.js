@@ -3,21 +3,6 @@ import { parseCocktailPage } from "./parseCocktailPage.js";
 import { domain, uniq } from "./utils.js";
 import cheerio from "cheerio";
 
-/*
-interface Cocktail {
-  url: string;
-  imgSrc: string;
-  name: string;
-  desc: string;
-  ingredients: {
-    amount: string;
-    ingredientName: string;
-    alternateIngredientsNames: string[];
-  }[];
-  instructions: string;
-}
-*/
-
 const hardcodedCocktailsUrls = [`https://${domain}/drinks/maple-leaf/`];
 
 export async function buildLinksOfAllCocktails() {
