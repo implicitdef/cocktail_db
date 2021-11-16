@@ -1,6 +1,6 @@
 import { Availability, Ingredient } from "./types";
 
-export const DISCREET = true;
+export const DISCREET = false;
 
 export function translateAvailabilityAsColor(availability: Availability) {
   switch (availability) {
