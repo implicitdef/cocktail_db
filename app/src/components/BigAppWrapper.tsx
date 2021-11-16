@@ -30,7 +30,9 @@ export function BigAppWrapper({ cocktails }: { cocktails: Cocktail[] }) {
 
   return (
     <div>
-      <SettingsOverlay {...{ cocktails, searchResults, setSearchResults }} />
+      <SettingsOverlay
+        {...{ cocktails, ingredientsAvailability, setSearchResults }}
+      />
       <CocktailsTable
         cocktails={searchResults}
         {...{

@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from "react";
-import { Cocktail } from "../utils/types";
+import { AvailabilitiesMap, Cocktail } from "../utils/types";
+import { flattenIngredientName } from "../utils/utils";
 
 function useInputTextSetup() {
   const [value, setValue] = useState<string>("");
@@ -17,24 +18,87 @@ function useInputCheckboxSetup() {
   return [value, onChange] as const;
 }
 
+function parseSpacedStr(s: string) {
+  return s
+    .trim()
+    .toLowerCase()
+    .split(" ")
+    .filter((_) => _.trim().length);
+}
+
 export function SettingsOverlay({
   cocktails,
-  searchResults,
   setSearchResults,
+  ingredientsAvailability,
 }: {
   cocktails: Cocktail[];
-  searchResults: Cocktail[];
   setSearchResults: (res: Cocktail[]) => void;
+  ingredientsAvailability: AvailabilitiesMap;
 }) {
   const [includeStr, includeStrOnChange] = useInputTextSetup();
   const [excludeStr, excludeStrOnChange] = useInputTextSetup();
   const [excludeNo, setExcludeNo] = useInputCheckboxSetup();
   const [excludeMaybe, setExcludeMaybe] = useInputCheckboxSetup();
 
-  const onSubmit = useCallback((e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log("@@@ on submit");
-  }, []);
+  const onSubmit = useCallback(
+    (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      const includes = parseSpacedStr(includeStr);
+      const excludes = parseSpacedStr(excludeStr);
+      setSearchResults(
+        cocktails.filter(({ ingredients }) => {
+          const ingredientNames = ingredients.map((_) =>
+            flattenIngredientName(_.ingredientNameWithLinks)
+          );
+
+          if (
+            excludeNo &&
+            ingredientNames.some(
+              (name) => ingredientsAvailability[name] === "no"
+            )
+          ) {
+            return false;
+          }
+          if (
+            excludeMaybe &&
+            ingredientNames.some(
+              (name) => ingredientsAvailability[name] === "maybe"
+            )
+          ) {
+            return false;
+          }
+          if (
+            includes.length &&
+            !includes.every((word) =>
+              ingredientNames.some((name) => name.toLowerCase().includes(word))
+            )
+          ) {
+            return false;
+          }
+          if (
+            excludes.length &&
+            !excludes.every((word) =>
+              ingredientNames.every(
+                (name) => !name.toLowerCase().includes(word)
+              )
+            )
+          ) {
+            return false;
+          }
+          return true;
+        })
+      );
+    },
+    [
+      ingredientsAvailability,
+      cocktails,
+      excludeMaybe,
+      excludeNo,
+      excludeStr,
+      includeStr,
+      setSearchResults,
+    ]
+  );
 
   return (
     <div
@@ -81,15 +145,6 @@ export function SettingsOverlay({
 
         <button type="submit">Search</button>
       </form>
-
-      {/* <select
-        value={ingredientsFilterMode}
-        onChange={(e) => setIngredientsFilterMode(e.target.value as FilterMode)}
-      >
-        <option value="all">All cocktails</option>
-        <option value="only_yes">Only with Yes</option>
-        <option value="yes_or_maybe">Only with Yes or Maybe</option>
-      </select> */}
     </div>
   );
 }
