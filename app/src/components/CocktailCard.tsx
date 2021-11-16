@@ -26,11 +26,11 @@ export function CocktailCard({
         margin: "5px",
       }}
     >
-      {/* <img
+      <img
         style={{ height: "4rem", float: "right" }}
         src={`https://${domain}/${cocktail.imgSrc}`}
         alt=""
-      /> */}
+      />
       <h4 style={{ margin: 0 }}>
         {cocktail.name}
         <a
