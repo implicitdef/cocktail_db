@@ -1,5 +1,7 @@
 import { Availability, Ingredient } from "./types";
 
+export const DISCREET = true;
+
 export function translateAvailabilityAsColor(availability: Availability) {
   switch (availability) {
     case "no":

@@ -4,7 +4,7 @@ import {
   AvailabilitySetter,
   Cocktail,
 } from "../utils/types";
-import { domain, flattenIngredientName } from "../utils/utils";
+import { DISCREET, domain, flattenIngredientName } from "../utils/utils";
 import { Alternatives } from "./Alternatives";
 import { IngredientWithAvailability } from "./IngredientWithAvailability";
 
@@ -27,11 +27,16 @@ export function CocktailCard({
       }}
     >
       <img
-        style={{ height: "4rem", float: "right" }}
+        style={{ height: DISCREET ? "1rem" : "4rem", float: "right" }}
         src={`https://${domain}/${cocktail.imgSrc}`}
         alt=""
       />
-      <h4 style={{ margin: 0 }}>
+      <h4
+        style={{
+          margin: 0,
+          ...(DISCREET ? { fontSize: "1rem", fontWeight: "normal" } : null),
+        }}
+      >
         {cocktail.name}
         <a
           style={{ fontSize: "0.9rem", marginLeft: "5px" }}

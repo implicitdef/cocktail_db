@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from "react";
 import { performSearch } from "../utils/searchLogic";
 import { AvailabilitiesMap, Cocktail } from "../utils/types";
+import { DISCREET } from "../utils/utils";
 
 function useInputTextSetup() {
   const [value, setValue] = useState<string>("");
@@ -62,14 +63,14 @@ export function SettingsOverlay({
   return (
     <div
       style={{
-        background: "lightblue",
+        background: DISCREET ? "#FFE" : "lightblue",
         padding: "10px",
         position: "fixed",
         top: "10px",
         right: "10px",
       }}
     >
-      <h2>Settings</h2>
+      {DISCREET || <h2>Settings</h2>}
 
       <form
         style={{
