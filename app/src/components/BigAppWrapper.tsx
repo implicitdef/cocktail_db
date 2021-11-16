@@ -12,6 +12,7 @@ export function BigAppWrapper({ cocktails }: { cocktails: Cocktail[] }) {
     useState<AvailabilitiesMap>(readIngredientsAvailabilityFromPersistence());
   const [ingredientsFilterMode, setIngredientsFilterMode] =
     useState<FilterMode>("all");
+  const [searchResults, setSearchResults] = useState<Cocktail[]>(cocktails);
 
   const setIngredientAvailability = useCallback(
     (ingredientName, availability) => {
@@ -29,11 +30,9 @@ export function BigAppWrapper({ cocktails }: { cocktails: Cocktail[] }) {
 
   return (
     <div>
-      <SettingsOverlay
-        {...{ ingredientsFilterMode, setIngredientsFilterMode }}
-      />
+      <SettingsOverlay {...{ cocktails, searchResults, setSearchResults }} />
       <CocktailsTable
-        cocktails={cocktails}
+        cocktails={searchResults}
         {...{
           ingredientsAvailability,
           setIngredientAvailability,
