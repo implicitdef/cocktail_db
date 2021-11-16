@@ -21,7 +21,15 @@ export function CocktailsTable({
   ingredientsFilterMode: FilterMode;
 }) {
   return (
-    <div>
+    <div
+      style={{
+        background: "lightgray",
+        width: "100%",
+        display: "flex",
+        flexFlow: "row wrap",
+        justifyContent: "flex-start",
+      }}
+    >
       {cocktails
         .filter(({ ingredients }) => {
           if (ingredientsFilterMode === "all") return true;
