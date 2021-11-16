@@ -1,4 +1,5 @@
 import React, { useCallback, useState } from "react";
+import { performSearch } from "../utils/searchLogic";
 import { AvailabilitiesMap, Cocktail } from "../utils/types";
 import { flattenIngredientName } from "../utils/utils";
 
@@ -18,14 +19,6 @@ function useInputCheckboxSetup() {
   return [value, onChange] as const;
 }
 
-function parseSpacedStr(s: string) {
-  return s
-    .trim()
-    .toLowerCase()
-    .split(" ")
-    .filter((_) => _.trim().length);
-}
-
 export function SettingsOverlay({
   cocktails,
   setSearchResults,
@@ -43,49 +36,16 @@ export function SettingsOverlay({
   const onSubmit = useCallback(
     (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      const includes = parseSpacedStr(includeStr);
-      const excludes = parseSpacedStr(excludeStr);
       setSearchResults(
-        cocktails.filter(({ ingredients }) => {
-          const ingredientNames = ingredients.map((_) =>
-            flattenIngredientName(_.ingredientNameWithLinks)
-          );
-
-          if (
-            excludeNo &&
-            ingredientNames.some(
-              (name) => ingredientsAvailability[name] === "no"
-            )
-          ) {
-            return false;
-          }
-          if (
-            excludeMaybe &&
-            ingredientNames.some(
-              (name) => ingredientsAvailability[name] === "maybe"
-            )
-          ) {
-            return false;
-          }
-          if (
-            includes.length &&
-            !includes.every((word) =>
-              ingredientNames.some((name) => name.toLowerCase().includes(word))
-            )
-          ) {
-            return false;
-          }
-          if (
-            excludes.length &&
-            !excludes.every((word) =>
-              ingredientNames.every(
-                (name) => !name.toLowerCase().includes(word)
-              )
-            )
-          ) {
-            return false;
-          }
-          return true;
+        performSearch({
+          cocktails,
+          ingredientsAvailability,
+          searchCriteria: {
+            includeStr,
+            excludeStr,
+            excludeNo,
+            excludeMaybe,
+          },
         })
       );
     },
