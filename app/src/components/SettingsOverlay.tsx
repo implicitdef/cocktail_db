@@ -71,36 +71,52 @@ export function SettingsOverlay({
     >
       <h2>Settings</h2>
 
-      <form onSubmit={onSubmit}>
+      <form
+        style={{
+          display: "flex",
+          flexFlow: "column",
+          gap: "10px",
+          minWidth: "400px",
+        }}
+        onSubmit={onSubmit}
+      >
         <input
           type="text"
           onChange={includeStrOnChange}
           value={includeStr}
-          placeholder="hello demo"
+          placeholder="required ingredients (use spaces as a delimiter)"
         />
 
         <input
           type="text"
           onChange={excludeStrOnChange}
           value={excludeStr}
-          placeholder="hello demo"
+          placeholder="ingredients to exclude (use spaces as a delimiter)"
         />
 
-        <label htmlFor="exclude_no">exclude the "no"</label>
-        <input
-          type="checkbox"
-          checked={excludeNo}
-          onChange={setExcludeNo}
-          id="exclude_no"
-        />
+        <div>
+          <input
+            type="checkbox"
+            checked={excludeNo}
+            onChange={setExcludeNo}
+            id="exclude_no"
+          />
+          <label htmlFor="exclude_no">
+            Exclude cocktails with ingredients marked "no"
+          </label>
+        </div>
 
-        <label htmlFor="exclude_maybe">exclude the "maybe"</label>
-        <input
-          type="checkbox"
-          checked={excludeMaybe}
-          onChange={setExcludeMaybe}
-          id="exclude_maybe"
-        />
+        <div>
+          <input
+            type="checkbox"
+            checked={excludeMaybe}
+            onChange={setExcludeMaybe}
+            id="exclude_maybe"
+          />
+          <label htmlFor="exclude_maybe">
+            Exclude cocktails with ingredients marked "maybe"
+          </label>
+        </div>
 
         <button type="submit">Search</button>
       </form>
