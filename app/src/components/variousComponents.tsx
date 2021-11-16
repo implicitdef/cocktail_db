@@ -23,7 +23,6 @@ export function CocktailsTable({
   return (
     <div
       style={{
-        background: "lightgray",
         width: "100%",
         display: "flex",
         flexFlow: "row wrap",

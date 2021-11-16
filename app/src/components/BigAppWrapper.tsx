@@ -4,7 +4,7 @@ import {
   readIngredientsAvailabilityFromPersistence,
 } from "../utils/storage";
 import { AvailabilitiesMap, Cocktail, FilterMode } from "../utils/types";
-import { SettingsOverlay } from "./SettingsOverlay";
+import { SearchBar } from "./SearchBar";
 import { CocktailsTable } from "./variousComponents";
 
 export function BigAppWrapper({ cocktails }: { cocktails: Cocktail[] }) {
@@ -30,7 +30,7 @@ export function BigAppWrapper({ cocktails }: { cocktails: Cocktail[] }) {
 
   return (
     <div>
-      <SettingsOverlay
+      <SearchBar
         {...{ cocktails, ingredientsAvailability, setSearchResults }}
       />
       <CocktailsTable

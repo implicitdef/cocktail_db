@@ -19,7 +19,7 @@ function useInputCheckboxSetup() {
   return [value, onChange] as const;
 }
 
-export function SettingsOverlay({
+export function SearchBar({
   cocktails,
   setSearchResults,
   ingredientsAvailability,
@@ -63,12 +63,15 @@ export function SettingsOverlay({
   return (
     <div
       style={{
-        background: DISCREET ? "#FFE" : "lightblue",
+        border: "2px dashed gray",
         padding: "10px",
+        paddingTop: "0",
+        margin: "8px",
         top: "10px",
+        maxWidth: "400px",
       }}
     >
-      {DISCREET || <h2>Settings</h2>}
+      {DISCREET || <h5>Search filters</h5>}
 
       <form
         style={{
