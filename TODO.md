@@ -1,11 +1,4 @@
-Mettre en flexbox les différents cocktails
-
-Leur faire ptêt un système pour avoir une différenciation chacun, genre un symbole random
-
-Refaire la recherche, pour pouvoir inclure/exclure des listes d'ingrédients, et combiner avec le filtre no/yes/maybe
-
-    - faire que la recherche soit validée quand les checkboxes sont soumises
-    - améliorer le style du form, les placeholders, labels, etc.
+Fix pk la recherche se bloque quand j'ai plus de résultats ?
 
 Revoir/compléter le crawling du site pour vraiment choper tous les cocktails (et ne plus dépendre des cocktails hardcodés)
 
