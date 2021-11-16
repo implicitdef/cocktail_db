@@ -34,7 +34,7 @@ export function IngredientWithAvailability({
   }, [ingredientName, availability, setIngredientAvailability]);
 
   function buildIngredientUrl(href: string) {
-    return `https://${domain}/ingredients/${href}`;
+    return `https://${domain}${href}`;
   }
 
   return (
