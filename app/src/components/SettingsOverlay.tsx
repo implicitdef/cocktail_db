@@ -65,9 +65,7 @@ export function SettingsOverlay({
       style={{
         background: DISCREET ? "#FFE" : "lightblue",
         padding: "10px",
-        position: "fixed",
         top: "10px",
-        right: "10px",
       }}
     >
       {DISCREET || <h2>Settings</h2>}
