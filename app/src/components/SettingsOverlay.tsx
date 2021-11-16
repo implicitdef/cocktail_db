@@ -1,7 +1,6 @@
 import React, { useCallback, useState } from "react";
 import { performSearch } from "../utils/searchLogic";
 import { AvailabilitiesMap, Cocktail } from "../utils/types";
-import { flattenIngredientName } from "../utils/utils";
 
 function useInputTextSetup() {
   const [value, setValue] = useState<string>("");
