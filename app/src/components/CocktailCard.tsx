@@ -26,12 +26,12 @@ export function CocktailCard({
         margin: "5px",
       }}
     >
-      <img
+      {/* <img
         style={{ height: "4rem", float: "right" }}
         src={`https://${domain}/${cocktail.imgSrc}`}
         alt=""
-      />
-      <h2 style={{ margin: 0 }}>
+      /> */}
+      <h4 style={{ margin: 0 }}>
         {cocktail.name}
         <a
           style={{ fontSize: "0.9rem", marginLeft: "5px" }}
@@ -41,7 +41,7 @@ export function CocktailCard({
         >
           link
         </a>
-      </h2>
+      </h4>
 
       <ul>
         {cocktail.ingredients.map(
