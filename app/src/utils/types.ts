@@ -21,6 +21,3 @@ export type AvailabilitySetter = (
 export interface AvailabilitiesMap {
   [ingredient: string]: Availability;
 }
-
-export type FilterMode = "all" | "only_yes" | "yes_or_maybe";
-export type FilterModeSetter = (f: FilterMode) => void;
