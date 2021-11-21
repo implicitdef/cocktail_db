@@ -1,6 +1,7 @@
+export type IngredientName = (string | { href: string; text: string })[];
 export interface Ingredient {
   amount: string;
-  ingredientNameWithLinks: (string | { href: string; text: string })[];
+  ingredientNameWithLinks: IngredientName;
   alternateIngredientsNames: string[];
 }
 export interface Cocktail {

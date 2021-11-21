@@ -6,21 +6,47 @@ import {
 } from "../utils/storage";
 import { AvailabilitiesMap, Availability, Cocktail } from "../utils/types";
 import { DISCREET } from "../utils/utils";
+import { AllIngredients } from "./AllIngredients";
 import { CocktailsSearch } from "./CocktailsSearch";
 
-function App() {
-  const [page, setPage] = useState<"cocktailssearch" | "allingredients">(
-    "cocktailssearch"
+type Page = "cocktailssearch" | "allingredients";
+/* eslint-disable jsx-a11y/anchor-is-valid */
+
+function PageLink({
+  target,
+  page,
+  label,
+  setPage,
+}: {
+  target: Page;
+  page: Page;
+  label: string;
+  setPage: (p: Page) => void;
+}) {
+  const goTo = useCallback(() => {
+    setPage(target);
+  }, [setPage, target]);
+
+  const active = page === target;
+  return (
+    <a
+      onClick={goTo}
+      href="#"
+      style={{
+        margin: "0 10px",
+        // textDecoration: active ? "none" : "underline",
+        fontWeight: active ? "bold" : "normal",
+      }}
+    >
+      {label}
+    </a>
   );
+}
+
+function App() {
+  const [page, setPage] = useState<Page>("cocktailssearch");
   const [ingredientsAvailability, setIngredientsAvailability] =
     useState<AvailabilitiesMap>(readIngredientsAvailabilityFromPersistence());
-
-  const goToCocktailsSearch = useCallback(() => {
-    setPage("cocktailssearch");
-  }, [setPage]);
-  const goToAllIngredients = useCallback(() => {
-    setPage("allingredients");
-  }, [setPage]);
 
   const setIngredientAvailability = useCallback(
     (ingredientName: string, availability: Availability) => {
@@ -35,24 +61,34 @@ function App() {
     },
     [ingredientsAvailability]
   );
+  const cocktails = db as Cocktail[];
 
   return (
     <div>
-      {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-      <a onClick={goToCocktailsSearch} href="#">
-        cocktailssearch
-      </a>{" "}
-      {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-      <a onClick={goToAllIngredients} href="#">
-        all ingredients
-      </a>
+      <PageLink
+        {...{
+          page,
+          target: "cocktailssearch",
+          label: "Cocktails",
+          setPage,
+        }}
+      />
+      <PageLink
+        {...{
+          page,
+          target: "allingredients",
+          label: "Ingredients",
+          setPage,
+        }}
+      />
       {page === "cocktailssearch" ? (
         <CocktailsSearch
-          cocktails={db as Cocktail[]}
-          {...{ setIngredientAvailability, ingredientsAvailability }}
+          {...{ cocktails, setIngredientAvailability, ingredientsAvailability }}
         />
       ) : (
-        ""
+        <AllIngredients
+          {...{ cocktails, setIngredientAvailability, ingredientsAvailability }}
+        />
       )}
     </div>
   );
