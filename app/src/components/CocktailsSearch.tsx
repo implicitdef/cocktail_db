@@ -1,30 +1,21 @@
-import React, { useCallback, useState } from "react";
-import {
-  persistIngredientsAvailability,
-  readIngredientsAvailabilityFromPersistence,
-} from "../utils/storage";
-import { AvailabilitiesMap, Cocktail } from "../utils/types";
-import { SearchBar } from "./SearchBar";
+import React, { useState } from "react";
+import { AvailabilitiesMap, Availability, Cocktail } from "../utils/types";
 import { CocktailsTable } from "./CocktailsTable";
+import { SearchBar } from "./SearchBar";
 
-export function CocktailsSearch({ cocktails }: { cocktails: Cocktail[] }) {
-  const [ingredientsAvailability, setIngredientsAvailability] =
-    useState<AvailabilitiesMap>(readIngredientsAvailabilityFromPersistence());
+export function CocktailsSearch({
+  cocktails,
+  setIngredientAvailability,
+  ingredientsAvailability,
+}: {
+  cocktails: Cocktail[];
+  setIngredientAvailability: (
+    ingredientName: string,
+    availability: Availability
+  ) => void;
+  ingredientsAvailability: AvailabilitiesMap;
+}) {
   const [searchResults, setSearchResults] = useState<Cocktail[]>(cocktails);
-
-  const setIngredientAvailability = useCallback(
-    (ingredientName, availability) => {
-      const newMap = {
-        ...ingredientsAvailability,
-        [ingredientName]: availability,
-      };
-      setIngredientsAvailability(newMap);
-      setTimeout(() => {
-        persistIngredientsAvailability(newMap);
-      }, 50);
-    },
-    [ingredientsAvailability]
-  );
 
   return (
     <div>

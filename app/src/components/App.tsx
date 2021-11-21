@@ -1,6 +1,10 @@
 import React, { useCallback, useState } from "react";
 import db from "../db.json";
-import { Cocktail } from "../utils/types";
+import {
+  persistIngredientsAvailability,
+  readIngredientsAvailabilityFromPersistence,
+} from "../utils/storage";
+import { AvailabilitiesMap, Availability, Cocktail } from "../utils/types";
 import { DISCREET } from "../utils/utils";
 import { CocktailsSearch } from "./CocktailsSearch";
 
@@ -8,6 +12,8 @@ function App() {
   const [page, setPage] = useState<"cocktailssearch" | "allingredients">(
     "cocktailssearch"
   );
+  const [ingredientsAvailability, setIngredientsAvailability] =
+    useState<AvailabilitiesMap>(readIngredientsAvailabilityFromPersistence());
 
   const goToCocktailsSearch = useCallback(() => {
     setPage("cocktailssearch");
@@ -16,9 +22,19 @@ function App() {
     setPage("allingredients");
   }, [setPage]);
 
-  
-
-
+  const setIngredientAvailability = useCallback(
+    (ingredientName: string, availability: Availability) => {
+      const newMap = {
+        ...ingredientsAvailability,
+        [ingredientName]: availability,
+      };
+      setIngredientsAvailability(newMap);
+      setTimeout(() => {
+        persistIngredientsAvailability(newMap);
+      }, 50);
+    },
+    [ingredientsAvailability]
+  );
 
   return (
     <div>
@@ -31,7 +47,10 @@ function App() {
         all ingredients
       </a>
       {page === "cocktailssearch" ? (
-        <CocktailsSearch cocktails={db as Cocktail[]} />
+        <CocktailsSearch
+          cocktails={db as Cocktail[]}
+          {...{ setIngredientAvailability, ingredientsAvailability }}
+        />
       ) : (
         ""
       )}
