@@ -1,6 +1,7 @@
 import React, { useCallback } from "react";
 import { Availability, AvailabilitySetter, Ingredient } from "../utils/types";
 import { domain } from "../utils/utils";
+import { AvailabilityLabel } from "./AvailabilityLabel";
 
 export function IngredientWithAvailability({
   ingredientName,
@@ -62,19 +63,10 @@ export function IngredientWithAvailability({
           </a>
         );
       })}
-      <span
-        style={{
-          padding: "0 5px",
-          margin: "0 5px",
-          borderRadius: "5px",
-          color: "white",
-          cursor: "pointer",
-          backgroundColor: translateAvailabilityAsColor(),
-        }}
+      <AvailabilityLabel
+        availability={availability}
         onClick={incrementAvailability}
-      >
-        {availability || "???"}
-      </span>
+      />
     </span>
   );
 }

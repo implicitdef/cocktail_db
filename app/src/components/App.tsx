@@ -6,10 +6,11 @@ import {
 } from "../utils/storage";
 import { AvailabilitiesMap, Availability, Cocktail } from "../utils/types";
 import { DISCREET } from "../utils/utils";
+import { About } from "./About";
 import { AllIngredients } from "./AllIngredients";
 import { CocktailsSearch } from "./CocktailsSearch";
 
-type Page = "cocktailssearch" | "allingredients";
+type Page = "cocktailssearch" | "allingredients" | "about";
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
 function PageLink({
@@ -81,14 +82,24 @@ function App() {
           setPage,
         }}
       />
+      <PageLink
+        {...{
+          page,
+          target: "about",
+          label: "About",
+          setPage,
+        }}
+      />
       {page === "cocktailssearch" ? (
         <CocktailsSearch
           {...{ cocktails, setIngredientAvailability, ingredientsAvailability }}
         />
-      ) : (
+      ) : page === "allingredients" ? (
         <AllIngredients
           {...{ cocktails, setIngredientAvailability, ingredientsAvailability }}
         />
+      ) : (
+        <About />
       )}
     </div>
   );
